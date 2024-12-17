@@ -1,3 +1,4 @@
+import Header from "@/components/navigation/Header";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -26,9 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased container px-2 md:px-6 lg:px-8`}
       >
-        {children}
+        <Header />
+        <section>{children}</section>
       </body>
     </html>
   );
