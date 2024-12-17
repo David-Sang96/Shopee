@@ -1,4 +1,5 @@
 import Header from "@/components/navigation/Header";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <Header />
         <section>{children}</section>
+        <Toaster position="top-center" expand={true} closeButton richColors />
       </body>
     </html>
   );
