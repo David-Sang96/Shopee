@@ -17,8 +17,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-import { login } from "./actions";
+import { loginUser } from "./actions";
 
 const LoginPage = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -28,7 +29,16 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const { execute, status, result } = useAction(login);
+  const { execute, status, result } = useAction(loginUser, {
+    onSuccess({ data }) {
+      if (data?.success) {
+        toast.success(data.success);
+        form.reset();
+      } else if (data?.error) {
+        toast.error(data.error);
+      }
+    },
+  });
 
   const onSubmit = ({ email, password }: z.infer<typeof loginSchema>) => {
     execute({ email, password });
@@ -78,6 +88,7 @@ const LoginPage = () => {
           <Button
             type="submit"
             className={cn("w-full", status === "executing" && "animate-pulse")}
+            disabled={status === "executing"}
           >
             Login
           </Button>

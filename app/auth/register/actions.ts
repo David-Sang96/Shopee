@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { generateEmailVerificationToken, sendEmail } from "../actions";
 
-export const register = actionClient
+export const registerUser = actionClient
   .schema(registerSchema)
   .action(async ({ parsedInput: { name, email, password } }) => {
     const hashPassword = await bcrypt.hash(password, 10);
@@ -29,7 +29,7 @@ export const register = actionClient
         );
         return { success: "Please reverify your email" };
       }
-      return { error: "Email already in-use." };
+      return { error: "Email already in-use" };
     }
     // record user
     await db.insert(users).values({ name, email, password: hashPassword });

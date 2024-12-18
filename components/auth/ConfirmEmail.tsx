@@ -42,8 +42,7 @@ const ConfirmEmail = () => {
     >
       <p
         className={cn(
-          "text-center font-semibold text-xl ",
-          success && "text-primary",
+          "text-center font-semibold text-xl text-primary",
           error && "text-red-600"
         )}
       >

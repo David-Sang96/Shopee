@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { register } from "./actions";
+import { registerUser } from "./actions";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -32,19 +32,23 @@ const RegisterPage = () => {
     },
   });
 
-  const { execute, status } = useAction(register, {
+  const { execute, status } = useAction(registerUser, {
     onSuccess({ data }) {
-      toast.success(data?.success, {
-        duration: 5000,
-        action: {
-          label: "Open Mail",
-          onClick() {
-            window.open("https://mail.google.com");
+      if (data?.success) {
+        toast.success(data?.success, {
+          duration: 5000,
+          action: {
+            label: "Open Mail",
+            onClick() {
+              window.open("https://mail.google.com");
+            },
           },
-        },
-      });
-      form.reset();
-      router.push("/auth/login");
+        });
+        form.reset();
+        router.push("/auth/login");
+      } else if (data?.error) {
+        toast.error(data.error);
+      }
     },
   });
 
@@ -107,6 +111,7 @@ const RegisterPage = () => {
           <Button
             type="submit"
             className={cn("w-full", status === "executing" && "animate-pulse")}
+            disabled={status === "executing"}
           >
             Register
           </Button>
