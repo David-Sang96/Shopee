@@ -18,7 +18,7 @@ import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { login } from "./action";
+import { login } from "./actions";
 
 const LoginPage = () => {
   const form = useForm<z.infer<typeof loginSchema>>({

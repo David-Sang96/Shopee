@@ -15,6 +15,13 @@
       "when": 1734424616186,
       "tag": "0001_demonic_mandarin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1734437041036,
+      "tag": "0002_clumsy_paibok",
+      "breakpoints": true
     }
   ]
 }

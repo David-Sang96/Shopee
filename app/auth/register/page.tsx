@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { register } from "./action";
+import { register } from "./actions";
 
 const RegisterPage = () => {
   const router = useRouter();
