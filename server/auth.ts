@@ -17,10 +17,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      // OAuthAccountNotLinked: Another account already exists with the same e-mail address (to remove this error set this true)
+      allowDangerousEmailAccountLinking: true,
     }),
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID!,
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
     Credentials({
       authorize: async (credentials) => {
