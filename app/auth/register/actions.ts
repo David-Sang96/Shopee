@@ -6,7 +6,10 @@ import { users } from "@/server/schema";
 import { registerSchema } from "@/types/authSchema";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
-import { generateEmailVerificationToken, sendEmail } from "../actions";
+import {
+  generateEmailVerificationToken,
+  sendEmail,
+} from "../confirm-email/actions";
 
 export const registerUser = actionClient
   .schema(registerSchema)

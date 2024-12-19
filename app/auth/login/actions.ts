@@ -7,7 +7,10 @@ import { users } from "@/server/schema";
 import { loginSchema } from "@/types/authSchema";
 import { eq } from "drizzle-orm";
 import { AuthError } from "next-auth";
-import { generateEmailVerificationToken, sendEmail } from "../actions";
+import {
+  generateEmailVerificationToken,
+  sendEmail,
+} from "../confirm-email/actions";
 
 export const loginUser = actionClient
   .schema(loginSchema)
@@ -31,7 +34,7 @@ export const loginUser = actionClient
           verificationToken[0].token,
           isUserExisted.name!.slice(0.5)
         );
-        return { error: "Please verify your email" };
+        return { success: "Please verify your email" };
       }
 
       await signIn("credentials", { email, password, redirectTo: "/" });

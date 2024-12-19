@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   Card,
   CardContent,
@@ -11,7 +10,7 @@ import AuthFormFooter from "./AuthFormFooter";
 import ProviderLogin from "./ProviderLogin";
 
 interface AuthFormProps {
-  children: ReactNode;
+  children: React.ReactNode;
   formTitle: string;
   showProvider: boolean;
   footerLabel: string;

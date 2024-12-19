@@ -22,6 +22,20 @@
       "when": 1734437041036,
       "tag": "0002_clumsy_paibok",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1734585196125,
+      "tag": "0003_same_maverick",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1734585239647,
+      "tag": "0004_real_shadowcat",
+      "breakpoints": true
     }
   ]
 }

@@ -60,7 +60,11 @@ const LoginPage = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@gmail.com..." {...field} />
+                  <Input
+                    placeholder="example@gmail.com..."
+                    {...field}
+                    disabled={status === "executing"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,14 +77,19 @@ const LoginPage = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="********" {...field} type="password" />
+                  <Input
+                    placeholder="********"
+                    {...field}
+                    type="password"
+                    disabled={status === "executing"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
           <Link
-            href={"/auth"}
+            href={"/auth/reset"}
             className="text-sm mt-2 inline-block hover:underline hover:text-green-600 hover:underline-offset-2 duration-300"
           >
             Forgot Password?

@@ -1,6 +1,6 @@
 "use server";
 
-import EmailConfirmationTemplate from "@/components/EmailTemplate";
+import VerificationEmailTemplate from "@/components/VerificationEmailTemplate";
 import { getBaseUrl } from "@/lib/getBaseUrl";
 import { db } from "@/server";
 import { emailVerificationToken, users } from "@/server/schema";
@@ -10,10 +10,10 @@ import { Resend } from "resend";
 const currentBaseUrl = getBaseUrl();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// TOKEN generate
+// Verification TOKEN generate
 export const generateEmailVerificationToken = async (email: string) => {
   const token = crypto.randomUUID();
-  const expires = new Date(Date.now() + 30 * 60 * 1000);
+  const expires = new Date(Date.now() + 15 * 60 * 1000);
   const isTokenExisted = await db.query.emailVerificationToken.findFirst({
     where: eq(emailVerificationToken.email, email),
   });
@@ -40,7 +40,7 @@ export const sendEmail = async (
     from: "onboarding@resend.dev",
     to: email,
     subject: "Confirm your account - Welcome to SnapShop",
-    react: EmailConfirmationTemplate({
+    react: VerificationEmailTemplate({
       userFirstName,
       verifyEmailLink,
     }),
@@ -53,6 +53,8 @@ export const sendEmail = async (
 
 // Email Confirm with token
 export const emailConfirmation = async (verificationToken: string) => {
+  if (!verificationToken) return { error: "Missing token" };
+
   const isTokenExisted = await db.query.emailVerificationToken.findFirst({
     where: eq(emailVerificationToken.token, verificationToken),
   });

@@ -32,7 +32,13 @@ export default function RootLayout({
       >
         <Header />
         <section>{children}</section>
-        <Toaster position="top-center" expand={true} closeButton richColors />
+        <Toaster
+          position="top-center"
+          expand={true}
+          closeButton
+          richColors
+          duration={3000}
+        />
       </body>
     </html>
   );

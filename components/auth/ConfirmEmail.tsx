@@ -1,9 +1,9 @@
 "use client";
 
-import { emailConfirmation } from "@/app/auth/actions";
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { emailConfirmation } from "@/app/auth/confirm-email/actions";
 import { useEffect, useState } from "react";
 import AuthForm from "./AuthForm";
 

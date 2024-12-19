@@ -12,39 +12,34 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { registerSchema } from "@/types/authSchema";
+import { changePasswordSchema } from "@/types/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { registerUser } from "./actions";
+import { changePassword } from "./actions";
 
-const RegisterPage = () => {
+const ChangePasswordPage = () => {
+  const resetToken = useSearchParams().get("token");
   const router = useRouter();
-  const form = useForm<z.infer<typeof registerSchema>>({
-    resolver: zodResolver(registerSchema),
+
+  const form = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
-      name: "",
-      email: "",
       password: "",
+      confirmPassword: "",
+      token: "",
     },
   });
 
-  const { execute, status } = useAction(registerUser, {
+  const { execute, status, result } = useAction(changePassword, {
     onSuccess({ data }) {
       if (data?.success) {
-        toast.success(data?.success, {
-          action: {
-            label: "Open Mail",
-            onClick() {
-              window.open("https://mail.google.com");
-            },
-          },
-        });
         form.reset();
         router.push("/auth/login");
+        toast.success(data.success);
       } else if (data?.error) {
         toast.error(data.error);
       }
@@ -52,65 +47,34 @@ const RegisterPage = () => {
   });
 
   const onSubmit = ({
-    email,
     password,
-    name,
-  }: z.infer<typeof registerSchema>) => {
-    execute({ name, email, password });
+    confirmPassword,
+  }: z.infer<typeof changePasswordSchema>) => {
+    execute({
+      password,
+      confirmPassword,
+      token: String(resetToken),
+    });
   };
 
   return (
     <AuthForm
-      formTitle="Register account"
+      formTitle="Update Password"
       footerHref="/auth/login"
       footerLabel="Already have an account?"
-      showProvider
+      showProvider={false}
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Joshua"
-                    {...field}
-                    disabled={status === "executing"}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="example@gmail.com..."
-                    {...field}
-                    disabled={status === "executing"}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>New Password</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="********"
+                    placeholder="*******"
                     {...field}
                     type="password"
                     disabled={status === "executing"}
@@ -120,12 +84,34 @@ const RegisterPage = () => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm New Password</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="*******"
+                    {...field}
+                    type="password"
+                    disabled={status === "executing"}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button
             type="submit"
-            className={cn("w-full", status === "executing" && "animate-pulse")}
+            className={cn(
+              "w-full mt-4",
+              status === "executing" && "animate-pulse"
+            )}
             disabled={status === "executing"}
           >
-            Register
+            Change Password
           </Button>
         </form>
       </Form>
@@ -133,4 +119,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default ChangePasswordPage;

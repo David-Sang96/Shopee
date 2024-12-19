@@ -10,15 +10,15 @@ import {
 } from "@react-email/components";
 import { Icons } from "./icons";
 
-interface EmailConfirmationTemplateProps {
+interface VerificationEmailTemplateProps {
   userFirstName?: string;
   verifyEmailLink?: string;
 }
 
-export const EmailConfirmationTemplate = ({
+export const VerificationEmailTemplate = ({
   userFirstName,
   verifyEmailLink,
-}: EmailConfirmationTemplateProps) => {
+}: VerificationEmailTemplateProps) => {
   return (
     <Html>
       <Head />
@@ -46,12 +46,12 @@ export const EmailConfirmationTemplate = ({
   );
 };
 
-EmailConfirmationTemplate.PreviewProps = {
+VerificationEmailTemplate.PreviewProps = {
   userFirstName: "SnapShop",
   verifyEmailLink: "https://google.com",
-} as EmailConfirmationTemplateProps;
+} as VerificationEmailTemplateProps;
 
-export default EmailConfirmationTemplate;
+export default VerificationEmailTemplate;
 
 const main = {
   backgroundColor: "#f6f9fc",
