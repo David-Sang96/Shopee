@@ -31,7 +31,7 @@ export const ResetPasswordEmailTemplate = ({
     <Html>
       <Head />
       <Preview>
-        You requested to updated the password for your SnapShop account
+        You requested to updated the password for your Shopee account
       </Preview>
       <Body style={main}>
         <Container style={container}>
@@ -48,7 +48,7 @@ export const ResetPasswordEmailTemplate = ({
           <Section style={content}>
             <Text style={paragraph}>Hi {username},</Text>
             <Text style={paragraph}>
-              You updated the password for your SnapShop account on{" "}
+              You updated the password for your Shopee account on{" "}
               {formattedDate}. If this was you, then no further action is
               required.
             </Text>
@@ -62,13 +62,13 @@ export const ResetPasswordEmailTemplate = ({
             <Text style={paragraph}>
               Still have questions? Please contact{" "}
               <Link href="#" style={link}>
-                SnapShop Support
+                Shopee Support
               </Link>
             </Text>
             <Text style={paragraph}>
               Thanks,
               <br />
-              SnapShop Support Team
+              Shopee Support Team
             </Text>
           </Section>
         </Container>
@@ -78,7 +78,7 @@ export const ResetPasswordEmailTemplate = ({
 };
 
 ResetPasswordEmailTemplate.PreviewProps = {
-  username: "SnapShop user",
+  username: "Shopee user",
   updatedDate: new Date("June 23, 2022 4:06:00 pm UTC"),
 } as ResetPasswordEmailTemplateProps;
 

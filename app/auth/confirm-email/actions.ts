@@ -39,7 +39,7 @@ export const sendEmail = async (
   const { data, error } = await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
-    subject: "Confirm your account - Welcome to SnapShop",
+    subject: "Confirm your account - Welcome to Shopee",
     react: VerificationEmailTemplate({
       userFirstName,
       verifyEmailLink,

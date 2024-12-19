@@ -43,7 +43,7 @@ export const sendPasswordResetEmail = async (
   const { data, error } = await resend.emails.send({
     from: "onboarding@resend.dev",
     to: email,
-    subject: "Reset the password for your SnapShop account",
+    subject: "Reset the password for your Shopee account",
     react: ResetPasswordEmailTemplate({
       username,
       updatedDate,

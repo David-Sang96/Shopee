@@ -22,14 +22,14 @@ export const VerificationEmailTemplate = ({
   return (
     <Html>
       <Head />
-      <Preview>Confirm your account - Welcome to SnapShop</Preview>
+      <Preview>Confirm your account - Welcome to Shopee</Preview>
       <Body style={main}>
         <Container style={container}>
           <Icons.shoppingBasket className="size-40" />
           <Section>
             <Text style={text}>Hi {userFirstName},</Text>
             <Text style={text}>
-              Thanks for signing up for SnapShop! To complete your registration,
+              Thanks for signing up for Shopee! To complete your registration,
               please verify your email address by clicking the link below:
             </Text>
             <Button style={button} href={verifyEmailLink}>
@@ -38,7 +38,7 @@ export const VerificationEmailTemplate = ({
             <Text style={text}>
               If you are not trying to create account, please ignore this email.
             </Text>
-            <Text style={text}>Thanks, SnapShop Team</Text>
+            <Text style={text}>Thanks, Shopee Team</Text>
           </Section>
         </Container>
       </Body>
@@ -47,7 +47,7 @@ export const VerificationEmailTemplate = ({
 };
 
 VerificationEmailTemplate.PreviewProps = {
-  userFirstName: "SnapShop",
+  userFirstName: "Shopee",
   verifyEmailLink: "https://google.com",
 } as VerificationEmailTemplateProps;
 
