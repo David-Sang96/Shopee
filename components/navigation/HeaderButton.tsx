@@ -11,12 +11,14 @@ import {
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Icons } from "../icons";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 
 const HeaderButton = ({ user }: Session) => {
   const email = user?.email;
+  const router = useRouter();
 
   return (
     <div>
@@ -33,8 +35,12 @@ const HeaderButton = ({ user }: Session) => {
           <DropdownMenuContent align="end" className="p-3">
             <div className="flex gap-2 pb-2 cursor-pointer border-2 border-black/10 shadow-md px-2 py-3 rounded-md mb-4 hover:scale-95 duration-300 ease-in-out">
               <Avatar>
-                <AvatarImage src={user.image as string} alt="profile image" />
-                <AvatarFallback className="bg-white font-semibold text-primary">
+                <AvatarImage
+                  src={user.image as string}
+                  alt="profile image"
+                  aria-label="user profile picture"
+                />
+                <AvatarFallback className="bg-primary font-semibold text-white">
                   {user.name?.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -52,13 +58,15 @@ const HeaderButton = ({ user }: Session) => {
               />
               <span className="group-hover:text-primary">My Orders</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer group ">
+            <DropdownMenuItem
+              className="cursor-pointer group"
+              onClick={() => router.push("/dashboard/settings")}
+            >
               <Icons.setting
                 aria-hidden="true"
                 style={{ width: 22, height: 22, marginRight: 3 }}
                 className="group-hover:rotate-180 duration-500 group-hover:text-primary"
               />
-
               <span className="group-hover:text-primary"> Setting</span>
             </DropdownMenuItem>
             <DropdownMenuItem

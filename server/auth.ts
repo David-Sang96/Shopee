@@ -7,12 +7,50 @@ import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { db } from "./index";
-import { users } from "./schema";
+import { accounts, users } from "./schema";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: DrizzleAdapter(db) as any,
   secret: process.env.AUTH_SECRET!,
   session: { strategy: "jwt" },
+  callbacks: {
+    async session({ token, session }) {
+      if (session && token.sub) {
+        session.user.id = token.sub;
+      }
+      if (session.user && token.role) {
+        session.user.role = token.role as string;
+      }
+      if (session) {
+        session.user.isTwoFactorEnabled = token.isTowFactorEnabled as boolean;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.image = token.image as string;
+        session.user.isOauth = token.isOauth as boolean;
+      }
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
+
+      const isUserExisted = await db.query.users.findFirst({
+        where: eq(users.id, token.sub),
+      });
+      if (!isUserExisted) return token;
+
+      const isAccountExisted = await db.query.accounts.findFirst({
+        where: eq(accounts.userId, isUserExisted.id),
+      });
+
+      token.isOauth = !!isAccountExisted;
+      token.name = isUserExisted.name;
+      token.email = isUserExisted.email;
+      token.image = isUserExisted.image;
+      token.role = isUserExisted.role;
+      token.isTwoFactorEnabled = isUserExisted.isTwoFactorEnabled;
+      return token;
+    },
+  },
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
