@@ -40,10 +40,10 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
   return (
     <SettingsCard>
       <div className="flex justify-between">
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2">
           <Avatar className="size-14">
             <AvatarImage
-              src={session.user?.image || ""}
+              src={session.user?.image}
               alt="profile picture"
               aria-label="user profile picture"
             />
@@ -51,7 +51,7 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
               {session.user?.name?.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="">
+          <div>
             <h2 className="font-semibold text-lg">{session.user?.name}</h2>
             <p className="font-medium text-sm text-muted-foreground">
               {session.user?.email}
@@ -109,7 +109,7 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
                 />
               </Button>
             </DrawerTrigger>
-            <DrawerContent>
+            <DrawerContent className="mx-1">
               <DrawerHeader>
                 <DrawerTitle> Edit profile </DrawerTitle>
                 <DrawerDescription>

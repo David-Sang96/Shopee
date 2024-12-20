@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as string;
       }
       if (session) {
-        session.user.isTwoFactorEnabled = token.isTowFactorEnabled as boolean;
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
         session.user.image = token.image as string;
@@ -36,13 +36,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const isUserExisted = await db.query.users.findFirst({
         where: eq(users.id, token.sub),
       });
+
       if (!isUserExisted) return token;
 
-      const isAccountExisted = await db.query.accounts.findFirst({
+      const isProviderAccExisted = await db.query.accounts.findFirst({
         where: eq(accounts.userId, isUserExisted.id),
       });
 
-      token.isOauth = !!isAccountExisted;
+      token.isOauth = !!isProviderAccExisted;
       token.name = isUserExisted.name;
       token.email = isUserExisted.email;
       token.image = isUserExisted.image;

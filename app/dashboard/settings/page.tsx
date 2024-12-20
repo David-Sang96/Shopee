@@ -15,8 +15,14 @@ const SettingsPage = async () => {
       <main className="grid md:grid-cols-2 gap-4 pt-5">
         <ProfileCard session={session} />
         <div className="space-y-4">
-          <ChangePassword />
-          <TwoFactor />
+          <ChangePassword email={session.user.email} />
+          {!session.user.isOauth && (
+            <TwoFactor
+              isTwoFactorEnabled={session.user.isTwoFactorEnabled}
+              userId={session.user.id}
+              email={session.user.email}
+            />
+          )}
         </div>
       </main>
     </SettingsCard>

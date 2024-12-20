@@ -9,7 +9,7 @@ interface SettingsCardProps {
 const SettingsCard = ({ children, title, description }: SettingsCardProps) => {
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="p-4">
         {title && description && (
           <>
             <CardTitle>{title}</CardTitle>

@@ -4,7 +4,6 @@ import HeaderLogo from "./HeaderLogo";
 
 const Header = async () => {
   const session = await auth();
-  console.log(session);
 
   return (
     <nav className="flex justify-between items-center py-2.5">

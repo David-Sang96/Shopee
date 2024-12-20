@@ -65,3 +65,7 @@ body[data-scroll-locked].px-2 {
   padding-left: 0.5rem /* 8px */;
   padding-right: 0.5rem /* 8px */;
 }
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0;
+}
