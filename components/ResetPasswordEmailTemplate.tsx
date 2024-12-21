@@ -36,7 +36,7 @@ export const ResetPasswordEmailTemplate = ({
       <Body style={main}>
         <Container style={container}>
           <Section style={logo}>
-            <h2 style={logoTitle}>Snap Shop</h2>
+            <h2 style={logoTitle}>Shopee</h2>
           </Section>
           <Section style={sectionsBorders}>
             <Row>
