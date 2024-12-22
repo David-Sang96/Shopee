@@ -46,29 +46,30 @@ export const ResetPasswordEmailTemplate = ({
             </Row>
           </Section>
           <Section style={content}>
-            <Text style={paragraph}>Hi {username},</Text>
+            <Text style={paragraph}>Hello {username},</Text>
             <Text style={paragraph}>
-              You updated the password for your Shopee account on{" "}
-              {formattedDate}. If this was you, then no further action is
-              required.
+              We’re confirming that the password for your Shopee account was
+              successfully changed on {formattedDate}. If you made this change,
+              no further action is required.
             </Text>
             <Text style={paragraph}>
-              However if you did NOT perform this password change, please{" "}
+              If you did NOT request this password change, please{" "}
               <Link href={resetPasswordLink} style={link}>
-                reset your account password
+                reset your password
               </Link>{" "}
-              immediately.
+              immediately to secure your account.
             </Text>
             <Text style={paragraph}>
-              Still have questions? Please contact{" "}
+              For further assistance, feel free to contact{" "}
               <Link href="#" style={link}>
                 Shopee Support
               </Link>
+              .
             </Text>
             <Text style={paragraph}>
-              Thanks,
+              Best regards,
               <br />
-              Shopee Support Team
+              The Shopee Support Team
             </Text>
           </Section>
         </Container>

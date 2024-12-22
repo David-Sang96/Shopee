@@ -13,3 +13,10 @@ export const twoFactorSchema = z.object({
   userId: z.string(),
   email: z.string().email(),
 });
+
+export const avatarSchema = z.object({
+  image: z.string().url({
+    message: "Please enter a valid image url",
+  }),
+  email: z.string().email({ message: "Please provide a valid email." }),
+});

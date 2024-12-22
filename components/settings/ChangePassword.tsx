@@ -1,6 +1,7 @@
 "use client";
 
 import { resetPassword } from "@/app/auth/reset/actions";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { resetPasswordSchema } from "@/types/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +19,7 @@ type ChangePasswordProps = {
 };
 
 const ChangePassword = ({ email }: ChangePasswordProps) => {
+  const isDesktop = useMediaQuery("(min-width : 768px)");
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
@@ -51,22 +53,37 @@ const ChangePassword = ({ email }: ChangePasswordProps) => {
 
   return (
     <SettingsCard>
-      <div className="flex justify-between items-center">
-        <p className="text-sm font-medium">Change Password</p>
+      <div className="max-sm:flex max-sm:justify-between max-sm:items-center ">
+        <p className="text-sm font-medium md:mb-3">Change Password</p>
         <Form {...form}>
-          <Button
-            type="submit"
-            onClick={form.handleSubmit(onSubmit)}
-            className={cn(
-              "bg-primary text-white",
-              status === "executing" && "animate-pulse"
-            )}
-            disabled={status === "executing"}
-            aria-label="Change Password"
-            size={"sm"}
-          >
-            <Icons.key aria-hidden="true" style={{ width: 18, height: 18 }} />
-          </Button>
+          {isDesktop ? (
+            <Button
+              type="submit"
+              onClick={form.handleSubmit(onSubmit)}
+              className={cn(
+                "bg-primary text-white w-full",
+                status === "executing" && "animate-pulse"
+              )}
+              disabled={status === "executing"}
+              aria-label="Change Password"
+            >
+              <Icons.key aria-hidden="true" style={{ width: 18, height: 18 }} />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              onClick={form.handleSubmit(onSubmit)}
+              className={cn(
+                "bg-primary text-white",
+                status === "executing" && "animate-pulse"
+              )}
+              disabled={status === "executing"}
+              aria-label="Change Password"
+              size={"sm"}
+            >
+              <Icons.key aria-hidden="true" style={{ width: 18, height: 18 }} />
+            </Button>
+          )}
         </Form>
       </div>
     </SettingsCard>

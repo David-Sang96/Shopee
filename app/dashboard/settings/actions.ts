@@ -4,6 +4,7 @@ import { actionClient } from "@/lib/safeAction";
 import { db } from "@/server";
 import { users } from "@/server/schema";
 import {
+  avatarSchema,
   settingProfileSchema,
   twoFactorSchema,
 } from "@/types/settingProfileSchema";
@@ -43,4 +44,20 @@ export const toggleTowFactorAuth = actionClient
 
     revalidatePath("/dashboard/settings");
     return { success: "2FA saved" };
+  });
+
+export const profileAvatarUpdate = actionClient
+  .schema(avatarSchema)
+  .action(async ({ parsedInput: { image, email } }) => {
+    if (!image) return { error: "Image is required" };
+
+    const isUserExisted = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+    if (!isUserExisted) return { error: "Something went wrong" };
+
+    await db.update(users).set({ image }).where(eq(users.id, isUserExisted.id));
+
+    revalidatePath("/dashboard/settings");
+    return { success: "Profile image uploaded" };
   });

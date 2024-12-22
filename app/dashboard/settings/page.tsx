@@ -1,4 +1,5 @@
 import ChangePassword from "@/components/settings/ChangePassword";
+import LogOutBtn from "@/components/settings/LogOutBtn";
 import ProfileCard from "@/components/settings/ProfileCard";
 import SettingsCard from "@/components/settings/SettingsCard";
 import TwoFactor from "@/components/settings/TwoFactor";
@@ -14,16 +15,15 @@ const SettingsPage = async () => {
     <SettingsCard title="Settings" description="Manage your account settings">
       <main className="grid md:grid-cols-2 gap-4 pt-5">
         <ProfileCard session={session} />
-        <div className="space-y-4">
-          <ChangePassword email={session.user.email} />
-          {!session.user.isOauth && (
-            <TwoFactor
-              isTwoFactorEnabled={session.user.isTwoFactorEnabled}
-              userId={session.user.id}
-              email={session.user.email}
-            />
-          )}
-        </div>
+        {!session.user.isOauth && (
+          <TwoFactor
+            isTwoFactorEnabled={session.user.isTwoFactorEnabled}
+            userId={session.user.id}
+            email={session.user.email}
+          />
+        )}
+        <ChangePassword email={session.user.email} />
+        <LogOutBtn />
       </main>
     </SettingsCard>
   );

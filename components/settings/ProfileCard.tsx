@@ -13,8 +13,8 @@ import {
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { Session } from "next-auth";
 import { useState } from "react";
+import AvatarUploadForm from "../AvatarUploadForm";
 import { Icons } from "../icons";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -40,22 +40,26 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
   return (
     <SettingsCard>
       <div className="flex justify-between">
-        <div className="flex flex-col md:flex-row gap-2">
-          <Avatar className="size-14">
-            <AvatarImage
-              src={session.user?.image}
-              alt="profile picture"
-              aria-label="user profile picture"
-            />
-            <AvatarFallback className="bg-primary font-semibold text-white">
-              {session.user?.name?.slice(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex flex-col lg:flex-row gap-3">
+          <AvatarUploadForm
+            name={session.user?.name}
+            image={session.user?.image}
+            email={session.user?.email}
+          />
           <div>
-            <h2 className="font-semibold text-lg">{session.user?.name}</h2>
-            <p className="font-medium text-sm text-muted-foreground">
-              {session.user?.email}
+            <p className="text-sm font-medium text-muted-foreground flex items-center">
+              <Icons.readingBook
+                aria-hidden="true"
+                style={{ width: 20, height: 20 }}
+              />
+              Display Name:
             </p>
+            <h2 className="font-medium md:text-lg">@{session.user?.name}</h2>
+            <p className="text-sm font-medium text-muted-foreground mt-2 flex items-center gap-1">
+              <Icons.email aria-hidden="true" />
+              Email:
+            </p>
+            <p className="font-medium ">{session.user?.email}</p>
           </div>
         </div>
         {isDesktop ? (
@@ -105,7 +109,7 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
               >
                 <Icons.edit
                   aria-hidden="true"
-                  style={{ width: 20, height: 20 }}
+                  style={{ width: 19, height: 19 }}
                 />
               </Button>
             </DrawerTrigger>
