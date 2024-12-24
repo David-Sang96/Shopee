@@ -50,7 +50,10 @@ const HeaderButton = ({ user }: Session) => {
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer group">
+            <DropdownMenuItem
+              className="cursor-pointer group"
+              onClick={() => router.push("/dashboard/orders")}
+            >
               <Icons.truck
                 aria-hidden="true"
                 style={{ width: 22, height: 22, marginRight: 3 }}

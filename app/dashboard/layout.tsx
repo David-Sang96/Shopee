@@ -1,0 +1,53 @@
+import { Icons } from "@/components/icons";
+import DashboardNav from "@/components/navigation/DashboardNav";
+import { auth } from "@/server/auth";
+import { ReactNode } from "react";
+
+const publicRoutes = [
+  {
+    label: "Orders",
+    path: "/dashboard/orders",
+    icons: <Icons.order />,
+  },
+  {
+    label: "Settings",
+    path: "/dashboard/settings",
+    icons: <Icons.setting />,
+  },
+];
+
+const privateRoutes = [
+  {
+    label: "Analytics",
+    path: "/dashboard/analytics",
+    icons: <Icons.chart />,
+  },
+  {
+    label: "Create Product",
+    path: "/dashboard/create-product",
+    icons: <Icons.create />,
+  },
+  {
+    label: "Products",
+    path: "/dashboard/products",
+    icons: <Icons.product />,
+  },
+];
+
+const DashBoardLayout = async ({
+  children,
+}: Readonly<{ children: ReactNode }>) => {
+  const session = await auth();
+  const routes =
+    session?.user.role === "admin"
+      ? [...privateRoutes, ...publicRoutes]
+      : publicRoutes;
+  return (
+    <>
+      <DashboardNav routes={routes} />
+      <section>{children}</section>
+    </>
+  );
+};
+
+export default DashBoardLayout;

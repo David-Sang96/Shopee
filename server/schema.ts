@@ -5,6 +5,8 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  real,
+  serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -93,3 +95,11 @@ export const twoFactorCode = pgTable(
     compoundKey: primaryKey({ columns: [code.id, code.code] }),
   })
 );
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  description: text("description").notNull(),
+  title: text("title").notNull(),
+  price: real("price").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
