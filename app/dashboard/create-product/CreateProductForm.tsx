@@ -21,13 +21,17 @@ import { Input } from "@/components/ui/input";
 import { productSchema } from "@/types/productSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createProduct } from "./actions";
+import { createOrUpdateProduct } from "./actions";
 import Tiptap from "./Tiptap";
 
 const CreateProductForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -36,11 +40,12 @@ const CreateProductForm = () => {
       price: 0,
     },
   });
-
-  const { execute, status } = useAction(createProduct, {
+  const { execute, status } = useAction(createOrUpdateProduct, {
     onSuccess({ data }) {
       if (data?.success) {
         toast.success(data.success);
+        form.reset();
+        router.push("/dashboard/products");
       }
       if (data?.error) {
         toast.error(data.error);
@@ -48,12 +53,15 @@ const CreateProductForm = () => {
     },
   });
 
+  useEffect(() => {
+    form.setValue("description", "");
+  }, [form]);
+
   const onSubmit = ({
     title,
     description,
     price,
   }: z.infer<typeof productSchema>) => {
-    console.log(title, description, price);
     execute({ title, description, price });
   };
 
@@ -73,7 +81,11 @@ const CreateProductForm = () => {
                 <FormItem>
                   <FormLabel>Product Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="title" {...field} />
+                    <Input
+                      placeholder="title"
+                      {...field}
+                      disabled={status === "executing"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,6 +122,7 @@ const CreateProductForm = () => {
                         type="number"
                         step={100}
                         min={0}
+                        disabled={status === "executing"}
                       />
                     </div>
                   </FormControl>
@@ -117,7 +130,11 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={status === "executing"}
+            >
               Create
             </Button>
           </form>

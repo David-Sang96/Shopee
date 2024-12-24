@@ -19,7 +19,7 @@ const DashboardNav = ({ routes }: DashBoardNavProps) => {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b border-b-slate-300 mb-3 pb-2 w-3/4 lg:w-2/4 xl:w-2/5 mx-auto">
+    <nav className="border-b border-b-slate-300 mb-3 pb-2">
       <div className="flex items-center gap-2 md:gap-4 justify-center flex-wrap">
         {routes.map((route, index) => (
           <Link href={route.path} key={index}>

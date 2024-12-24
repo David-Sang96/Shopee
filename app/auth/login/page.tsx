@@ -58,7 +58,6 @@ const LoginPage = () => {
   });
 
   const onSubmit = ({ email, password, code }: z.infer<typeof loginSchema>) => {
-    console.log(code);
     execute({ email, password, code });
   };
 

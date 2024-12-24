@@ -22,7 +22,7 @@ const SettingsPage = async () => {
             email={session.user.email}
           />
         )}
-        <ChangePassword email={session.user.email} />
+        {!session.user.isOauth && <ChangePassword email={session.user.email} />}
         <LogOutBtn />
       </main>
     </SettingsCard>

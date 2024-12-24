@@ -45,7 +45,7 @@ const DashBoardLayout = async ({
   return (
     <>
       <DashboardNav routes={routes} />
-      <section>{children}</section>
+      <section className="max-w-5xl mx-auto">{children}</section>
     </>
   );
 };
