@@ -22,16 +22,31 @@ import { productSchema } from "@/types/productSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createOrUpdateProduct } from "./actions";
+import { createOrUpdateProduct, getSingleProduct } from "./actions";
 import Tiptap from "./Tiptap";
 
+type ProductType = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  createdAt: Date | null;
+};
+
 const CreateProductForm = () => {
+  const [clearEditor, setClearEditor] = useState(false);
+  const [clearEditor2, setClearEditor2] = useState(false);
+  const [isCurrentPage, setIsCurrentPage] = useState(false);
+  const [product, setProduct] = useState<ProductType | null>(null);
   const router = useRouter();
+  const productId = Number(useSearchParams().get("pid"));
+
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -40,36 +55,64 @@ const CreateProductForm = () => {
       price: 0,
     },
   });
+
   const { execute, status } = useAction(createOrUpdateProduct, {
     onSuccess({ data }) {
       if (data?.success) {
         toast.success(data.success);
         form.reset();
-        router.push("/dashboard/products");
+        setClearEditor2(true);
+        if (!data?.isCurrentPage) router.push("/dashboard/products");
       }
       if (data?.error) {
         toast.error(data.error);
       }
+      setIsCurrentPage(false);
     },
   });
 
   useEffect(() => {
-    form.setValue("description", "");
-  }, [form]);
+    if (productId) {
+      isProductExit(productId);
+    } else {
+      form.setValue("title", "");
+      form.setValue("description", "");
+      form.setValue("price", 0);
+      form.setValue("id", 0);
+      setClearEditor(true);
+    }
+    async function isProductExit(id: number) {
+      const { success, error } = await getSingleProduct(id);
+      if (error) {
+        toast.error(error);
+        router.push("/dashboard/products");
+      }
+      if (success) {
+        setProduct(success);
+        form.setValue("title", success.title);
+        form.setValue("description", success.description);
+        form.setValue("price", success.price);
+        form.setValue("id", success.id);
+      }
+    }
+  }, [productId]);
 
   const onSubmit = ({
+    id,
     title,
     description,
     price,
   }: z.infer<typeof productSchema>) => {
-    execute({ title, description, price });
+    execute({ id, title, description, price, isCurrentPage });
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Create Product</CardTitle>
-        <CardDescription>Create a new product</CardDescription>
+        <CardTitle>{productId ? "Update" : "Create"} Product</CardTitle>
+        <CardDescription>
+          {productId ? `Update ${product?.title} ` : "Create a new product"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -98,7 +141,11 @@ const CreateProductForm = () => {
                 <FormItem>
                   <FormLabel>Product Description</FormLabel>
                   <FormControl>
-                    <Tiptap val={field.value} />
+                    <Tiptap
+                      val={field.value}
+                      clearEditor={clearEditor}
+                      clearEditor2={clearEditor2}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,12 +177,21 @@ const CreateProductForm = () => {
                 </FormItem>
               )}
             />
+            {!productId && (
+              <div className="flex items-center gap-2 justify-end">
+                <Checkbox
+                  checked={isCurrentPage}
+                  onCheckedChange={() => setIsCurrentPage((prev) => !prev)}
+                />
+                <div className="text-sm">Stay on current page</div>
+              </div>
+            )}
             <Button
               type="submit"
               className="w-full"
               disabled={status === "executing"}
             >
-              Create
+              {productId ? "Update" : "Create"} product
             </Button>
           </form>
         </Form>

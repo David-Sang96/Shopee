@@ -5,12 +5,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
+import Link from "next/link";
+import { toast } from "sonner";
+import { deleteProduct } from "../create-product/actions";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -21,6 +24,42 @@ export type Product = {
   description: string;
   image: string;
   variants: any;
+};
+
+const ActionCells = (row: Row<Product>) => {
+  const product = row.original;
+  const { execute } = useAction(deleteProduct, {
+    onSuccess({ data }) {
+      if (data?.success) toast.success(data.success);
+      if (data?.error) toast.error(data.error);
+    },
+  });
+
+  return (
+    <div className="flex justify-center">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem className="cursor-pointer text-primary focus:text-white focus:bg-primary/80 duration-200 max-sm:text-sm">
+            <Link href={`/dashboard/create-product?pid=${product.id}`}>
+              Update product
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer text-red-500 focus:text-white focus:bg-red-500 duration-200 max-sm:text-sm"
+            onClick={() => execute({ id: product.id })}
+          >
+            Delete product
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -72,29 +111,9 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "actions",
-    header: "Actions",
+    header: () => <div className="text-center">Actions</div>,
     cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem className="cursor-pointer text-primary focus:text-white focus:bg-primary/80 duration-200">
-              Update product
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer text-red-500 focus:text-white focus:bg-red-500 duration-200">
-              Delete product
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return ActionCells(row);
     },
   },
 ];

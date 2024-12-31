@@ -1,4 +1,5 @@
 import Header from "@/components/navigation/Header";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -30,8 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased container px-2 `}
       >
-        <Header />
-        <section>{children}</section>
+        <ThemeProvider
+          attribute="class"
+          enableSystem={true}
+          disableTransitionOnChange={true}
+          defaultTheme="dark"
+        >
+          <Header />
+          {children}
+        </ThemeProvider>
         <Toaster
           position="top-center"
           expand={true}

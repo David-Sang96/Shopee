@@ -9,4 +9,9 @@ export const productSchema = z.object({
   price: z.coerce
     .number({ invalid_type_error: "Please enter a number" })
     .positive({ message: "Please enter a positive number" }),
+  isCurrentPage: z.boolean().optional(),
+});
+
+export const deleteProductSchema = z.object({
+  id: z.number({ message: "Id is required" }),
 });

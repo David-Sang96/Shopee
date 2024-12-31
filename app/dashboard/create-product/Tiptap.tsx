@@ -4,13 +4,16 @@ import { Icons } from "@/components/icons";
 import { Toggle } from "@/components/ui/toggle";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 type TiptapProps = {
   val: string;
+  clearEditor: boolean;
+  clearEditor2: boolean;
 };
 
-const Tiptap = ({ val }: TiptapProps) => {
+const Tiptap = ({ val, clearEditor, clearEditor2 }: TiptapProps) => {
   const { setValue } = useFormContext();
   const editor = useEditor({
     extensions: [
@@ -41,6 +44,18 @@ const Tiptap = ({ val }: TiptapProps) => {
       });
     },
   });
+
+  useEffect(() => {
+    if (clearEditor && editor) editor.commands.clearContent();
+  }, [clearEditor, editor]);
+
+  useEffect(() => {
+    if (clearEditor2 && editor) editor.commands.clearContent();
+  }, [clearEditor2, editor]);
+
+  useEffect(() => {
+    if (editor?.isEmpty) editor.commands.setContent(val);
+  }, [val]);
 
   return (
     <div className="space-y-2">

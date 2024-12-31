@@ -65,11 +65,7 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
         {isDesktop ? (
           <Dialog onOpenChange={setOpen} open={open}>
             <DialogTrigger asChild>
-              <Button
-                size={"sm"}
-                aria-label="Edit"
-                className="bg-white text-black hover:bg-white"
-              >
+              <Button size={"sm"} aria-label="Edit">
                 <Icons.edit
                   aria-hidden="true"
                   style={{ width: 20, height: 20 }}
