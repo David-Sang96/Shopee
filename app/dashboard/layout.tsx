@@ -23,7 +23,7 @@ const privateRoutes = [
     icons: <Icons.chart />,
   },
   {
-    label: "Create Product",
+    label: "Product Form",
     path: "/dashboard/create-product",
     icons: <Icons.create />,
   },

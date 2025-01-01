@@ -107,7 +107,7 @@ const CreateProductForm = () => {
   };
 
   return (
-    <Card>
+    <Card className="dark:border-gray-700">
       <CardHeader>
         <CardTitle>{productId ? "Update" : "Create"} Product</CardTitle>
         <CardDescription>
@@ -145,6 +145,7 @@ const CreateProductForm = () => {
                       val={field.value}
                       clearEditor={clearEditor}
                       clearEditor2={clearEditor2}
+                      setClearEditor2={setClearEditor2}
                     />
                   </FormControl>
                   <FormMessage />
@@ -188,7 +189,7 @@ const CreateProductForm = () => {
             )}
             <Button
               type="submit"
-              className="w-full"
+              className="w-full dark:text-white"
               disabled={status === "executing"}
             >
               {productId ? "Update" : "Create"} product

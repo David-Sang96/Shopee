@@ -11,9 +11,15 @@ type TiptapProps = {
   val: string;
   clearEditor: boolean;
   clearEditor2: boolean;
+  setClearEditor2: (val: boolean) => void;
 };
 
-const Tiptap = ({ val, clearEditor, clearEditor2 }: TiptapProps) => {
+const Tiptap = ({
+  val,
+  clearEditor,
+  clearEditor2,
+  setClearEditor2,
+}: TiptapProps) => {
   const { setValue } = useFormContext();
   const editor = useEditor({
     extensions: [
@@ -51,6 +57,8 @@ const Tiptap = ({ val, clearEditor, clearEditor2 }: TiptapProps) => {
 
   useEffect(() => {
     if (clearEditor2 && editor) editor.commands.clearContent();
+
+    return () => setClearEditor2(false);
   }, [clearEditor2, editor]);
 
   useEffect(() => {

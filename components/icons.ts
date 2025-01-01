@@ -6,12 +6,17 @@ import { FaGithub, FaListOl } from "react-icons/fa";
 import { FaCheck, FaListUl } from "react-icons/fa6";
 import { FcGoogle, FcReadingEbook } from "react-icons/fc";
 import { FiLogOut } from "react-icons/fi";
-import { GrBold } from "react-icons/gr";
+import { GrBold, GrFormPrevious } from "react-icons/gr";
 import { HiOutlineClipboardCheck } from "react-icons/hi";
 import { IoKeyOutline, IoSettingsOutline } from "react-icons/io5";
 import { LiaUserEditSolid } from "react-icons/lia";
-import { LuHeading1 } from "react-icons/lu";
-import { MdFormatItalic, MdOutlineAttachMoney } from "react-icons/md";
+import { LuHeading1, LuSlidersHorizontal } from "react-icons/lu";
+import {
+  MdFormatItalic,
+  MdOutlineAttachMoney,
+  MdOutlineNavigateNext,
+} from "react-icons/md";
+import { RiArrowUpDownLine } from "react-icons/ri";
 import { RxCross2, RxStrikethrough } from "react-icons/rx";
 import { TfiEmail } from "react-icons/tfi";
 
@@ -40,4 +45,8 @@ export const Icons = {
   orderList: FaListOl,
   unOrderList: FaListUl,
   h1: LuHeading1,
+  filter: LuSlidersHorizontal,
+  arrowUpDown: RiArrowUpDownLine,
+  next: MdOutlineNavigateNext,
+  previous: GrFormPrevious,
 };
