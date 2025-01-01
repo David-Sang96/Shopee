@@ -1,5 +1,6 @@
 "use client";
 
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -90,7 +91,19 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "title",
-    header: "Title",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Title
+        <Icons.arrowUpDown
+          aria-hidden="true"
+          style={{ width: 18, height: 18 }}
+        />
+      </Button>
+    ),
     cell: ({ row }) => {
       const title = row.getValue("title") as string;
       return <span className="font-medium ">{title}</span>;
@@ -98,7 +111,19 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: "Price",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        className="p-0"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Price
+        <Icons.arrowUpDown
+          aria-hidden="true"
+          style={{ width: 18, height: 18 }}
+        />
+      </Button>
+    ),
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("price"));
       const formatted = new Intl.NumberFormat("en-US", {

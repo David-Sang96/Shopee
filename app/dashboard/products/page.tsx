@@ -20,7 +20,7 @@ const ProductsPage = async () => {
   });
 
   return (
-    <section>
+    <section className="pb-4">
       <DataTable columns={columns} data={productData} />
     </section>
   );

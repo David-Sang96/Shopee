@@ -8,7 +8,7 @@ interface SettingsCardProps {
 
 const SettingsCard = ({ children, title, description }: SettingsCardProps) => {
   return (
-    <Card>
+    <Card className="dark:border-gray-700">
       <CardHeader className="px-2 py-2.5 lg:p-4">
         {title && description && (
           <>
