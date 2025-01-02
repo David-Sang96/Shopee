@@ -50,6 +50,13 @@
       "when": 1735652368352,
       "tag": "0006_low_bruce_banner",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1735804762507,
+      "tag": "0007_chubby_shape",
+      "breakpoints": true
     }
   ]
 }

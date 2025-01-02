@@ -1,6 +1,7 @@
 "use client";
 
 import { Icons } from "@/components/icons";
+import VariantDialog from "@/components/products/VariantDialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { VariantsWithImagesAndTags } from "@/lib/InferTypes";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -24,7 +26,7 @@ export type Product = {
   title: string;
   description: string;
   image: string;
-  variants: any;
+  variants: VariantsWithImagesAndTags[];
 };
 
 const ActionCells = (row: Row<Product>) => {
@@ -88,6 +90,25 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "variants",
     header: "Variants",
+    cell: ({ row }) => {
+      const variants = row.getValue("variants") as VariantsWithImagesAndTags[];
+      return (
+        <div>
+          {variants.map((variant) => (
+            <div className="bg-primary" key={variant.id}>
+              <div className="">{variant.color}</div>
+            </div>
+          ))}
+          <VariantDialog editMode={false}>
+            <Icons.add
+              aria-label="add button"
+              style={{ width: 20, height: 20 }}
+              className="text-gray-500 hover:text-black dark:hover:text-white duration-200 cursor-pointer"
+            />
+          </VariantDialog>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "title",

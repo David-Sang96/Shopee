@@ -8,6 +8,7 @@ import { FcGoogle, FcReadingEbook } from "react-icons/fc";
 import { FiLogOut } from "react-icons/fi";
 import { GrBold, GrFormPrevious } from "react-icons/gr";
 import { HiOutlineClipboardCheck } from "react-icons/hi";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoKeyOutline, IoSettingsOutline } from "react-icons/io5";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { LuHeading1, LuSlidersHorizontal } from "react-icons/lu";
@@ -49,4 +50,5 @@ export const Icons = {
   arrowUpDown: RiArrowUpDownLine,
   next: MdOutlineNavigateNext,
   previous: GrFormPrevious,
+  add: IoIosAddCircleOutline,
 };
